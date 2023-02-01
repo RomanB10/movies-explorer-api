@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/RomanB10/movies-explorer-api/issues"
   },
-  "homepage": "https://github.com/RomanB10/movies-explorer-api#readme"
+  "homepage": "https://github.com/RomanB10/movies-explorer-api#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
