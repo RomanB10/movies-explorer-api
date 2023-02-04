@@ -57,19 +57,19 @@ const movieSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
-  movield: {
-   /* type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',*/
+ /* movield: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
     required: true,
-  },
+  },*/
   nameRU: {
     type: String,
     require: true,
     validate: {
       validator(v) {
-        return /^[а-яА-ЯёЁ0-9]+$/.test(v);
+        return /^[а-яА-ЯёЁ0-9\s]+$/.test(v);
       },
-      message: 'некорреткное название ',
+      message: 'некорреткное название, введите название на Русском',
     },
   },
   nameEN: {
@@ -77,9 +77,9 @@ const movieSchema = new mongoose.Schema({
     require: true,
     validate: {
       validator(v) {
-        return /^[a-zA-Z0-9]+$/.test(v);
+        return /^[a-zA-Z0-9\s]+$/.test(v);
       },
-      message: 'некорреткное название ',
+      message: 'некорреткное название, введите название на Английском',
     },
   },
 });

@@ -1,4 +1,4 @@
-/*require('dotenv').config();// необходим, чтобы пользоваться окружением 'process.env'*/
+require('dotenv').config();// необходим, чтобы пользоваться окружением 'process.env'
 
 const { JWT_SECRET_KEY = 'verty_secret' } = process.env;
 const BAD_REQUSET = 400;
