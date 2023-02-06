@@ -18,7 +18,7 @@ const CentralHandingError = require('./errors/CentralHandingError');
 
 require('dotenv').config();// необходим, чтобы пользоваться окружением 'process.env'
 
-const { PORT = 3000, MONGO_URL = 'mongodb://localhost:27017/explorerdb' } = process.env;
+const { PORT = 3005, MONGO_URL = 'mongodb://localhost:27017/explorerdb' } = process.env;
 // создаем сервер
 const app = express();
 // настройки cors с открытым api
