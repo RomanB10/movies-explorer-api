@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate'); // Валидация приходящих на сервер данных
+const isURL = require('validator/lib/isURL');// валидация URL
 const { getMovies, createMovies, deleteMovies } = require('../controllers/movies'); // импорт контроллеров
 Joi.objectId = require('joi-objectid')(Joi); // Пакет для валидации id
-const isURL = require('validator/lib/isURL');// валидация URL
 
+// eslint-disable-next-line max-len
 // сработает при GET-запросе на URL '/movies' - возвращает все сохраненные текущим пользователем фильмы
 router.get('/', getMovies);
 

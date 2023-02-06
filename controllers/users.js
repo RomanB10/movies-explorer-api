@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const bcrypt = require('bcryptjs'); // используем модуль для хеширования пароля
 const jwt = require('jsonwebtoken'); // используем модуль веб-токена
 const User = require('../modeles/user'); // импорт моделе с соответствующей схемой
@@ -38,11 +39,12 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 // сработает при POST-запросе на URL '/signup' - добавляет пользователя
+// eslint-disable-next-line consistent-return
 module.exports.createUser = async (req, res, next) => {
   const {
     name, email, password,
   } = req.body;
-  console.log(req.body);
+
   if (!email || !password) {
     return res.status(400).send({ message: 'Не переданы email или password' });
   }
@@ -59,7 +61,6 @@ module.exports.createUser = async (req, res, next) => {
       return res.status(CREATED).send({
         name: newUser.name,
         email: newUser.email,
-        password: newUser.password, // потом надо убрать
         id: newUser._id,
       });
     }
@@ -84,7 +85,7 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       // аутентификация успешна
       // создаем токен
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET_KEY, {
+      const token = jwt.sign({ _id: user._id }, process.env.NODE_ENV === 'production' ? JWT_SECRET_KEY : 'dev-secret', {
         expiresIn: '7d',
       });
       // вернём токен
@@ -98,7 +99,6 @@ module.exports.login = (req, res, next) => {
 // сработает при PATCH-запросе на URL '/users/me' - обновляет профиль
 module.exports.updateProfile = (req, res, next) => {
   const { name, email } = req.body;
-  console.log(req.body)
   User.findByIdAndUpdate(
     req.user._id,
     { name, email },

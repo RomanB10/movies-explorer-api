@@ -2,6 +2,8 @@ const express = require('express');// импорт express
 const mongoose = require('mongoose');// импорт mongoose
 const bodyParser = require('body-parser');// импорт body-parser
 const { celebrate, Joi, errors } = require('celebrate');// Валидация приходящих на сервер данных
+// eslint-disable-next-line import/no-extraneous-dependencies
+const cors = require('cors');
 
 const rateLimit = require('express-rate-limit'); // Ограничение количества запросов, защита от Dos-атак
 const helmet = require('helmet');// Защита от веб-уязвимостей, настройка Security-заголовков
@@ -19,6 +21,8 @@ require('dotenv').config();// необходим, чтобы пользоват�
 const { PORT = 3000, MONGO_URL = 'mongodb://localhost:27017/explorerdb' } = process.env;
 // создаем сервер
 const app = express();
+// настройки cors с открытым api
+app.use(cors());
 
 // Защита от Dos-атак
 const limiter = rateLimit({
@@ -42,10 +46,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // подключаемся к серверу mongo
 mongoose.connect(MONGO_URL, (err) => {
   if (err) throw err;
+  // eslint-disable-next-line no-console
   console.log('Connected to MongoDB!!!');
 });
 
 app.use(requestLogger); // подключаем логгер запросов
+
+// Краш-тест сервера
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 // роуты, не требующие авторизации, с валидацией тела запроса средствами celebrate
 app.post('/signin', celebrate({
@@ -59,7 +71,7 @@ app.post('/signup', celebrate({
     name: Joi.string().required().min(2).max(30),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
-}).unknown(true),
+  }).unknown(true),
 }), createUser);// создает пользователя с переданными в теле email, password, name
 
 // роуты, которым авторизация нужна
@@ -82,8 +94,10 @@ app.use(CentralHandingError);
 // Слушаем 3000 порт
 app.listen(PORT, (err) => {
   if (err) {
+    // eslint-disable-next-line no-console
     console.log('Error while starting server');
   } else {
+    // eslint-disable-next-line no-console
     console.log('Server has been started at port -', PORT);
   }
 });

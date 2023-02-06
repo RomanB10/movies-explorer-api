@@ -5,22 +5,32 @@ const movieSchema = new mongoose.Schema({
   country: {
     type: String,
     require: true,
+    minlength: 2,
+    maxlength: 30,
   },
   director: {
     type: String,
     require: true,
+    minlength: 1,
+    maxlength: 30,
   },
   duration: {
     type: Number,
     require: true,
+    minlength: 2,
+    maxlength: 999,
   },
   year: {
     type: String,
     require: true,
+    minlength: 2,
+    maxlength: 2090,
   },
   description: {
     type: String,
     require: true,
+    minlength: 2,
+    maxlength: 999,
   },
   image: {
     type: String,
@@ -57,11 +67,6 @@ const movieSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
- /* movield: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
-    required: true,
-  },*/
   nameRU: {
     type: String,
     require: true,
@@ -71,6 +76,8 @@ const movieSchema = new mongoose.Schema({
       },
       message: 'некорреткное название, введите название на Русском',
     },
+    minlength: 2,
+    maxlength: 30,
   },
   nameEN: {
     type: String,
@@ -81,6 +88,8 @@ const movieSchema = new mongoose.Schema({
       },
       message: 'некорреткное название, введите название на Английском',
     },
+    minlength: 2,
+    maxlength: 30,
   },
 });
 

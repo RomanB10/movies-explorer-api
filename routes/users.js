@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate'); // Валидация приходящих на сервер данных
 const { getCurrentUser, updateProfile } = require('../controllers/users');// импорт контроллеров
 
+// eslint-disable-next-line max-len
 // сработает при GET-запросе на URL '/users/me' - получить информацию о текущем пользователе (email и имя)
 router.get('/me', getCurrentUser);
 

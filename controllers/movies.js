@@ -1,7 +1,7 @@
-const Movie = require("../modeles/movie"); // импорт моделе с соответствующей схемой
-const BadRequestError = require("../errors/bad-request-err");
-const NotFoundError = require("../errors/not-found-err");
-const ForbiddenError = require("../errors/forbidden-err");
+const Movie = require('../modeles/movie'); // импорт моделе с соответствующей схемой
+const BadRequestError = require('../errors/bad-request-err');
+const NotFoundError = require('../errors/not-found-err');
+const ForbiddenError = require('../errors/forbidden-err');
 
 const {
   OK,
@@ -9,13 +9,12 @@ const {
   ERROR_400,
   ERROR_403,
   ERROR_404,
-} = require("../constants");
+} = require('../constants');
 
 // сработает при GET-запросе на URL '/movies' - возвращает все фильмы, сохраненные пользователем
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
-    /*.populate(['owner', 'likes'])*/
-    .populate(["owner"])
+    .populate(['owner'])
     .then((movies) => res.status(OK).send(movies))
     .catch((err) => next(err));
 };
@@ -34,7 +33,7 @@ module.exports.createMovies = (req, res, next) => {
     nameRU,
     nameEN,
   } = req.body; // получим из объекта запроса имя и ссылку
-  console.log("req.body", req.body);
+
   Movie.create({
     country,
     director,
@@ -48,27 +47,22 @@ module.exports.createMovies = (req, res, next) => {
     nameEN,
     owner: req.user._id,
   })
-    .then((movie) =>
-      res.status(CREATED).send({
-        _id: movie._id,
-        country: movie.country,
-        director: movie.director,
-        duration: movie.duration,
-        year: movie.year,
-        description: movie.description,
-        image: movie.image,
-        trailerLink: movie.trailerLink,
-        thumbnail: movie.thumbnail,
-        owner: movie.owner,
-        /*movield: movie.movield,*/
-        nameRU: movie.nameRU,
-        nameEN: movie.nameEN,
-      })
-    )
+    .then((movie) => res.status(CREATED).send({
+      movield: movie._id,
+      country: movie.country,
+      director: movie.director,
+      duration: movie.duration,
+      year: movie.year,
+      description: movie.description,
+      image: movie.image,
+      trailerLink: movie.trailerLink,
+      thumbnail: movie.thumbnail,
+      owner: movie.owner,
+      nameRU: movie.nameRU,
+      nameEN: movie.nameEN,
+    }))
     .catch((err) => {
-      console.log("err.name", err.name, err);
-
-      if (err.name === "ValidationError") {
+      if (err.name === 'ValidationError') {
         next(new BadRequestError(ERROR_400));
       } else {
         next(err);
@@ -78,7 +72,6 @@ module.exports.createMovies = (req, res, next) => {
 
 // сработает при DELETE-запросе на URL '/movies/:_id' - удаляет карточку по идентификатору
 module.exports.deleteMovies = (req, res, next) => {
-  console.log('req.params._id',req.params)
   Movie.findByIdAndRemove(req.params._id)
     .then((movie) => {
       if (!movie) {
@@ -99,13 +92,12 @@ module.exports.deleteMovies = (req, res, next) => {
         trailerLink: movie.trailerLink,
         thumbnail: movie.thumbnail,
         owner: movie.owner,
-        /*movield: movie.movield,*/
         nameRU: movie.nameRU,
         nameEN: movie.nameEN,
       });
     })
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === 'CastError') {
         next(new BadRequestError(ERROR_400));
       } else {
         next(err);
