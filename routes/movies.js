@@ -4,8 +4,7 @@ const isURL = require('validator/lib/isURL');// валидация URL
 const { getMovies, createMovies, deleteMovies } = require('../controllers/movies'); // импорт контроллеров
 Joi.objectId = require('joi-objectid')(Joi); // Пакет для валидации id
 
-// eslint-disable-next-line max-len
-// сработает при GET-запросе на URL '/movies' - возвращает все сохраненные текущим пользователем фильмы
+// сработает при GET-запросе на URL '/movies' - возвращает все фильмы
 router.get('/', getMovies);
 
 // сработает при POST-запросе на URL '/movies' - добавляет фильм

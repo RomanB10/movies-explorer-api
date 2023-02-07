@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+/* eslint-disable consistent-return */
 const bcrypt = require('bcryptjs'); // используем модуль для хеширования пароля
 const jwt = require('jsonwebtoken'); // используем модуль веб-токена
 const User = require('../modeles/user'); // импорт моделе с соответствующей схемой
@@ -17,7 +17,7 @@ const {
   JWT_SECRET_KEY,
 } = require('../constants');
 
-// сработает при GET-запросе на URL '/users/me' - получить информацию о текущем пользователе (email и имя)
+// сработает при GET-запросе на URL '/users/me' - получить информацию о текущем пользователе
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
@@ -39,7 +39,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 // сработает при POST-запросе на URL '/signup' - добавляет пользователя
-// eslint-disable-next-line consistent-return
+
 module.exports.createUser = async (req, res, next) => {
   const {
     name, email, password,

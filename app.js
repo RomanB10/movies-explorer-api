@@ -2,7 +2,7 @@ const express = require('express');// импорт express
 const mongoose = require('mongoose');// импорт mongoose
 const bodyParser = require('body-parser');// импорт body-parser
 const { celebrate, Joi, errors } = require('celebrate');// Валидация приходящих на сервер данных
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 const cors = require('cors');
 
 const rateLimit = require('express-rate-limit'); // Ограничение количества запросов, защита от Dos-атак
