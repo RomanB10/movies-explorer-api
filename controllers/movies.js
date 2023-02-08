@@ -13,7 +13,7 @@ const {
 
 // сработает при GET-запросе на URL '/movies' - возвращает все фильмы, сохраненные пользователем
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
     .populate(['owner'])
     .then((movies) => res.status(OK).send(movies))
     .catch((err) => next(err));
@@ -82,7 +82,7 @@ module.exports.deleteMovies = (req, res, next) => {
         throw new ForbiddenError(ERROR_403);
       }
       res.send({
-        _id: movie._id,
+        movield: movie._id,
         country: movie.country,
         director: movie.director,
         duration: movie.duration,
