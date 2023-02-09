@@ -30,6 +30,7 @@ module.exports.createMovies = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
+    movieId,
     nameRU,
     nameEN,
   } = req.body; // получим из объекта запроса имя и ссылку
@@ -42,12 +43,14 @@ module.exports.createMovies = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
+    movieId,
     nameRU,
     nameEN,
     owner: req.user._id,
   })
     .then((movie) => res.status(CREATED).send({
-      movield: movie._id,
+      _id: movie._id,
+      movieId: movie.movieId,
       country: movie.country,
       director: movie.director,
       duration: movie.duration,
@@ -81,7 +84,8 @@ module.exports.deleteMovies = (req, res, next) => {
         throw new ForbiddenError(ERROR_403);
       }
       res.send({
-        movield: movie._id,
+        _id: movie._id,
+        movieId: movie.movieId,
         country: movie.country,
         director: movie.director,
         duration: movie.duration,
