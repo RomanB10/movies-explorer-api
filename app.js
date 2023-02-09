@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');// импорт body-parser
 const { errors } = require('celebrate');// для полного описания ошибки через валидацию celebrate
 const cors = require('cors');
 
-const rateLimit = require('express-rate-limit'); // Ограничение количества запросов, защита от Dos-атак
 const helmet = require('helmet');// Защита от веб-уязвимостей, настройка Security-заголовков
+const limiter = require('./middlewares/rateLimiter');// импорт ограничителя количества запросов, защита от Dos-атак
 
 mongoose.set('strictQuery', false);// чтобы работал dotenv
 
@@ -20,15 +20,6 @@ const { PORT = 3005, MONGO_URL = 'mongodb://localhost:27017/explorerdb' } = proc
 const app = express();
 // настройки cors с открытым api
 app.use(cors());
-
-// Защита от Dos-атак
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // окно 15 минут
-  max: 100, // ограничьте каждый IP-адрес 100 запросами на "окно" (здесь за 15 минут)
-  standardHeaders: true, // Возвращает информацию об ограничении скорости в заголовках `RateLimit-*`
-  legacyHeaders: false, // Отключите заголовки `X-RateLimit-*`
-  message: 'Слишком много запросов с этого IP',
-});
 
 // Защита всех заголовков, для простановки security-заголовков
 app.use(helmet());
