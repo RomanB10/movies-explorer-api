@@ -1,8 +1,7 @@
 const express = require('express');// импорт express
 const mongoose = require('mongoose');// импорт mongoose
 const bodyParser = require('body-parser');// импорт body-parser
-const { celebrate, Joi, errors } = require('celebrate');// Валидация приходящих на сервер данных
-
+const { errors } = require('celebrate');// для полного описания ошибки через валидацию celebrate
 const cors = require('cors');
 
 const rateLimit = require('express-rate-limit'); // Ограничение количества запросов, защита от Dos-атак
@@ -10,10 +9,8 @@ const helmet = require('helmet');// Защита от веб-уязвимост�
 
 mongoose.set('strictQuery', false);// чтобы работал dotenv
 
-const { requestLogger, errorLogger } = require('./middlewares/logger');// типорт логеров запросов и ошибок
-const auth = require('./middlewares/auth');// импорт мидлвары авторизации
-const { createUser, login } = require('./controllers/users');// импорт котроллеров
-const NotFoundError = require('./errors/not-found-err');
+const { requestLogger, errorLogger } = require('./middlewares/logger');// импорт логеров запросов и ошибок
+const index = require('./routes/index');// импорт всех роутов
 const CentralHandingError = require('./errors/CentralHandingError');
 
 require('dotenv').config();// необходим, чтобы пользоваться окружением 'process.env'
@@ -59,29 +56,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-// роуты, не требующие авторизации, с валидацией тела запроса средствами celebrate
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-  }).unknown(true), // "unknown(true)" возможность разрешить неизвестные заголовки
-}), login);// проверяет переданные в теле почту и пароль и возвращает JWT
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-  }).unknown(true),
-}), createUser);// создает пользователя с переданными в теле email, password, name
-
-// роуты, которым авторизация нужна
-app.use('/users', auth, require('./routes/users')); // Подключаем роутер пользователей
-app.use('/movies', auth, require('./routes/movies')); // Подключаем роутер фильмов
-
-// Мидлвара для обработки неизвестного маршрута
-app.use('*', (req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
-});
+app.use('/', index); // все роуты подключены в файле index
 
 app.use(errorLogger); // подключаем логгер ошибок
 

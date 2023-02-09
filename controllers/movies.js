@@ -33,7 +33,6 @@ module.exports.createMovies = (req, res, next) => {
     nameRU,
     nameEN,
   } = req.body; // получим из объекта запроса имя и ссылку
-
   Movie.create({
     country,
     director,

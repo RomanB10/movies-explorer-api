@@ -10,6 +10,7 @@ router.get('/', getMovies);
 // сработает при POST-запросе на URL '/movies' - добавляет фильм
 router.post('/', celebrate({
   body: Joi.object().keys({
+    /*movield: Joi.number().required().min(1).max(999),*/
     country: Joi.string().required().min(2).max(30),
     director: Joi.string().required().min(1).max(30),
     duration: Joi.number().required().min(2).max(999),
