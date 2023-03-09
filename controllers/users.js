@@ -27,6 +27,7 @@ module.exports.getCurrentUser = (req, res, next) => {
       res.send({
         name: user.name,
         email: user.email,
+        _id: user._id,
       });
     })
     .catch((err) => {
@@ -61,7 +62,7 @@ module.exports.createUser = async (req, res, next) => {
       return res.status(CREATED).send({
         name: newUser.name,
         email: newUser.email,
-        id: newUser._id,
+        _id: newUser._id,
       });
     }
   } catch (error) {
