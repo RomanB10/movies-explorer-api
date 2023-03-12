@@ -5,11 +5,11 @@ Joi.objectId = require('joi-objectid')(Joi); // Пакет для валидац
 // валидация при POST-запросе на URL '/movies' - добавляет фильм
 const customerCreateValidator = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().required().min(2).max(30),
-    director: Joi.string().required().min(1).max(30),
-    duration: Joi.number().required().min(2).max(999),
+    country: Joi.string().required().min(2),
+    director: Joi.string().required().min(1),
+    duration: Joi.number().required().min(2),
     year: Joi.number().required().min(2).max(2090),
-    description: Joi.string().required().min(2).max(999),
+    description: Joi.string().required().min(2),
     image: Joi.string().required()
       .custom((value, helpers) => {
         if (isURL(value)) {
@@ -32,8 +32,8 @@ const customerCreateValidator = celebrate({
         return helpers.message('Введен некорректный URL');
       }), // кастомная валидация,
     movieId: Joi.number().required().min(1).max(999),
-    nameRU: Joi.string().required().min(2).max(30),
-    nameEN: Joi.string().required().min(2).max(30),
+    nameRU: Joi.string().required().min(2),
+    nameEN: Joi.string().required().min(2),
   }),
 });
 

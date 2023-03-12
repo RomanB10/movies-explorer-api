@@ -6,31 +6,31 @@ const movieSchema = new mongoose.Schema({
     type: String,
     require: true,
     minlength: 2,
-    maxlength: 30,
+   /* maxlength: 30,*/
   },
   director: {
     type: String,
     require: true,
     minlength: 1,
-    maxlength: 30,
+   /* maxlength: 30,*/
   },
   duration: {
     type: Number,
     require: true,
     minlength: 2,
-    maxlength: 999,
+   /* maxlength: 999,*/
   },
   year: {
     type: String,
     require: true,
     minlength: 2,
-    maxlength: 2090,
+   /* maxlength: 2090,*/
   },
   description: {
     type: String,
     require: true,
     minlength: 2,
-    maxlength: 999,
+    /*maxlength: 999,*/
   },
   image: {
     type: String,
@@ -71,31 +71,31 @@ const movieSchema = new mongoose.Schema({
     type: Number,
     require: true,
     minlength: 1,
-    maxlength: 999,
+   /* maxlength: 999,*/
   },
   nameRU: {
     type: String,
     require: true,
-    validate: {
+ /*   validate: {
       validator(v) {
         return /^[а-яА-ЯёЁ0-9\s]+$/.test(v);
       },
       message: 'некорреткное название, введите название на Русском',
-    },
+    },*/
     minlength: 2,
-    maxlength: 30,
+   /* maxlength: 30,*/
   },
   nameEN: {
     type: String,
     require: true,
-    validate: {
+   /* validate: {
       validator(v) {
         return /^[a-zA-Z0-9\s]+$/.test(v);
       },
       message: 'некорреткное название, введите название на Английском',
-    },
+    },*/
     minlength: 2,
-    maxlength: 30,
+   /*maxlength: 30,*/
   },
 });
 
